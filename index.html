@@ -1,64 +1,444 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NxtFi - Crypto to Fiat PSP</title>
-    <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; background: #0c0c0c; color: #fff; }
-        header { background: #1f1f1f; padding: 40px 20px; text-align: center; }
-        header h1 { font-size: 3em; margin: 0; color: #00ffc8; }
-        header p { font-size: 1.2em; color: #ccc; margin-top: 10px; }
-        section { padding: 50px 20px; max-width: 960px; margin: auto; }
-        section h2 { font-size: 2em; color: #00ffc8; margin-bottom: 20px; }
-        section p { font-size: 1.1em; line-height: 1.6; color: #ccc; }
-        .features { display: flex; flex-wrap: wrap; gap: 20px; }
-        .feature { flex: 1 1 45%; background: #1f1f1f; padding: 20px; border-radius: 8px; }
-        .feature h3 { color: #00ffc8; }
-        footer { background: #1a1a1a; text-align: center; padding: 30px 20px; font-size: 0.9em; color: #666; }
-        @media(max-width: 768px) {
-            .features { flex-direction: column; }
-            .feature { flex: 1 1 100%; }
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NxtFi - Web3 Crypto Payment Solutions</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #2563eb;
+      --secondary: #1e40af;
+      --accent: #3b82f6;
+      --dark: #0f172a;
+      --light: #f8fafc;
+      --gray: #64748b;
+      --gradient: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      color: var(--dark);
+      background-color: var(--light);
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: auto;
+      padding: 0 20px;
+    }
+
+    header {
+      background-color: var(--light);
+      position: fixed;
+      width: 100%;
+      z-index: 100;
+      transition: box-shadow 0.3s ease;
+    }
+
+    header.sticky {
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 0;
+    }
+
+    .logo-container {
+      display: flex;
+      align-items: center;
+    }
+
+    .logo-img {
+      height: 40px;
+      margin-right: 10px;
+    }
+
+    .logo-text {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--primary);
+      text-decoration: none;
+    }
+
+    .nav-links {
+      display: flex;
+      list-style: none;
+    }
+
+    .nav-links li {
+      margin-left: 30px;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: var(--dark);
+      font-weight: 500;
+      transition: color 0.3s;
+    }
+
+    .nav-links a:hover {
+      color: var(--primary);
+    }
+
+    .btn {
+      background: var(--gradient);
+      color: var(--light);
+      padding: 12px 24px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    .hero {
+      padding: 160px 0 80px;
+      text-align: center;
+    }
+
+    .hero h1 {
+      font-size: 48px;
+      background: var(--gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 20px;
+    }
+
+    .hero p {
+      font-size: 20px;
+      max-width: 800px;
+      margin: 0 auto 40px;
+      color: var(--gray);
+    }
+
+    .section {
+      padding: 100px 0;
+    }
+
+    .section-title {
+      text-align: center;
+      margin-bottom: 60px;
+    }
+
+    .section-title h2 {
+      font-size: 36px;
+      margin-bottom: 15px;
+    }
+
+    .section-title p {
+      font-size: 18px;
+      color: var(--gray);
+      max-width: 700px;
+      margin: auto;
+    }
+
+    .gradient-text {
+      background: var(--gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+    }
+
+    .feature-card {
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      border: 1px solid #e2e8f0;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    }
+
+    .feature-card h3 {
+      font-size: 22px;
+      margin-bottom: 15px;
+    }
+
+    .video-container {
+      max-width: 800px;
+      margin: 40px auto;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    }
+
+    .video-container iframe {
+      width: 100%;
+      height: 450px;
+      border: none;
+    }
+
+    .waitlist-form {
+      max-width: 600px;
+      margin: 40px auto;
+      padding: 30px;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    }
+
+    .contact {
+      background-color: var(--dark);
+      color: var(--light);
+      padding: 80px 0;
+    }
+
+    .contact-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 40px;
+    }
+
+    .contact h3 {
+      font-size: 24px;
+      margin-bottom: 20px;
+    }
+
+    .contact p {
+      color: #cbd5e1;
+      margin-bottom: 20px;
+    }
+
+    .contact-form input,
+    .contact-form textarea {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 15px;
+      border-radius: 6px;
+      border: none;
+      font-size: 16px;
+    }
+
+    .contact-form button {
+      width: 100%;
+      padding: 12px;
+      background: var(--gradient);
+      color: white;
+      font-weight: 600;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .contact-form button:hover {
+      opacity: 0.9;
+    }
+
+    footer {
+      background-color: var(--dark);
+      text-align: center;
+      padding: 40px 0 20px;
+      border-top: 1px solid #334155;
+    }
+
+    .footer-links {
+      list-style: none;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+    }
+
+    .footer-links li {
+      margin: 0 15px;
+    }
+
+    .footer-links a {
+      color: #94a3b8;
+      text-decoration: none;
+      font-size: 14px;
+    }
+
+    .footer-links a:hover {
+      color: white;
+    }
+
+    .copyright {
+      color: #94a3b8;
+      font-size: 14px;
+    }
+
+    .back-to-top {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      background: var(--primary);
+      color: white;
+      padding: 10px 15px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 18px;
+      display: none;
+      z-index: 200;
+    }
+
+    @media (max-width: 768px) {
+      .nav-links {
+        display: none;
+      }
+
+      .hero h1 {
+        font-size: 36px;
+      }
+
+      .video-container iframe {
+        height: 250px;
+      }
+    }
+  </style>
 </head>
 <body>
-    <header>
-        <h1>NxtFi</h1>
-        <p>Web3 Payments, Real World Reach</p>
-    </header>
-    <section>
-        <h2>What is NxtFi?</h2>
-        <p>NxtFi is a crypto payment platform that bridges the gap between digital currency and traditional finance. Users pay in crypto. Merchants receive fiat. Fast. Compliant. Global.</p>
-    </section>
-    <section>
-        <h2>Key Features</h2>
-        <div class="features">
-            <div class="feature">
-                <h3>Multi-Crypto Wallet</h3>
-                <p>Supports BTC, ETH, USDT, BNB with real-time conversion to fiat.</p>
-            </div>
-            <div class="feature">
-                <h3>Fiat Settlement</h3>
-                <p>Merchants receive AED, INR, or USD directly into their bank accounts.</p>
-            </div>
-            <div class="feature">
-                <h3>Seamless API</h3>
-                <p>Plug-and-play APIs for merchants and platforms to integrate payments.</p>
-            </div>
-            <div class="feature">
-                <h3>Secure & Compliant</h3>
-                <p>KYC, AML, and smart contract-powered security for worry-free use.</p>
-            </div>
+
+  <header id="header">
+    <div class="container">
+      <nav>
+        <a href="#" class="logo-container">
+          <img src="logo.svg" alt="NxtFi Logo" class="logo-img">
+          <span class="logo-text">NxtFi</span>
+        </a>
+        <ul class="nav-links">
+          <li><a href="#features">Features</a></li>
+          <li><a href="#demo">Demo</a></li>
+          <li><a href="#waitlist">Waitlist</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+        <a href="#waitlist" class="btn">Join Waitlist</a>
+      </nav>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="container">
+      <span class="web3-badge">WEB3 PAYMENT SOLUTION</span>
+      <h1>Seamless Crypto-Fiat Payments for Everyone</h1>
+      <p>NxtFi is revolutionizing the way users and merchants interact with digital currencies through our intuitive wallet platform.</p>
+      <a href="#waitlist" class="btn">Join Waitlist</a>
+    </div>
+  </section>
+
+  <section id="features" class="section">
+    <div class="container">
+      <div class="section-title">
+        <h2>Powering the Future of <span class="gradient-text">Web3 Payments</span></h2>
+        <p>Our platform bridges the gap between crypto and traditional finance with cutting-edge technology.</p>
+      </div>
+      <div class="features">
+        <div class="feature-card">
+          <h3>Multi-Currency Support</h3>
+          <p>Transact across multiple cryptocurrencies and fiat currencies with instant conversions.</p>
         </div>
-    </section>
-    <section>
-        <h2>Why NxtFi?</h2>
-        <p>Crypto is the future, but fiat still rules the real world. NxtFi makes both work together so you can scale your business without borders. Whether you’re in retail, SaaS, or e-commerce, we enable global payments without the friction.</p>
-    </section>
-    <footer>
-        &copy; 2025 NxtFi Innovation Inc. All rights reserved.
-    </footer>
+        <div class="feature-card">
+          <h3>Decentralized Security</h3>
+          <p>Non-custodial wallets and blockchain encryption for full user control.</p>
+        </div>
+        <div class="feature-card">
+          <h3>Merchant Tools</h3>
+          <p>Dashboard for businesses to accept crypto payments and settle in fiat.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="demo" class="section">
+    <div class="container">
+      <div class="section-title">
+        <h2>See <span class="gradient-text">NxtFi</span> in Action</h2>
+        <p>Watch our demo video to understand how NxtFi works for users and merchants.</p>
+      </div>
+      <div class="video-container">
+        <iframe src="https://www.youtube.com/embed/SpiTp7C8lSo" allowfullscreen></iframe>
+      </div>
+    </div>
+  </section>
+
+  <section id="waitlist" class="section">
+    <div class="container">
+      <div class="section-title">
+        <h2>Join Our <span class="gradient-text">Waitlist</span></h2>
+        <p>Be among the first to experience the NxtFi revolution.</p>
+      </div>
+      <div class="waitlist-form">
+        <div data-tf-live="01JVJ34G1EW2RPSWSKNKGPCGT9"></div>
+        <script src="//embed.typeform.com/next/embed.js"></script>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact" class="contact">
+    <div class="container">
+      <div class="section-title">
+        <h2>Contact Us</h2>
+        <p>We’re here to assist with queries, collaborations, or investment discussions.</p>
+      </div>
+      <div class="contact-container">
+        <div>
+          <h3>Get in Touch</h3>
+          <p>Email: <a href="mailto:support@nxtfi.com" style="color:#60a5fa;">support@nxtfi.com</a></p>
+          <p>Phone: +971 58 587 7243</p>
+        </div>
+        <div class="contact-form">
+          <form action="#" method="POST">
+            <input type="text" placeholder="Your Name" required>
+            <input type="email" placeholder="Your Email" required>
+            <textarea rows="4" placeholder="Your Message" required></textarea>
+            <button type="submit">Send Message</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <ul class="footer-links">
+      <li><a href="#features">Features</a></li>
+      <li><a href="#waitlist">Join Waitlist</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <div class="copyright">
+      &copy; 2025 NxtFi Innovation Inc. All rights reserved.
+    </div>
+  </footer>
+
+  <div class="back-to-top" id="backToTop">&#8679;</div>
+
+  <script>
+    window.addEventListener('scroll', function () {
+      const header = document.getElementById('header');
+      const backToTop = document.getElementById('backToTop');
+      header.classList.toggle('sticky', window.scrollY > 50);
+      backToTop.style.display = window.scrollY > 300 ? 'block' : 'none';
+    });
+
+    document.getElementById('backToTop').addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  </script>
 </body>
 </html>
